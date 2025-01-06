@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import Link from "next/link";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -19,15 +20,29 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
+      {/* If you want Next.js to manage <head> automatically, you can remove <head> here */}
+      <head />
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
       >
-        {children}
+        <header className="fixed top-0 left-0 w-full h-16 flex items-center z-10">
+          <nav className="w-full flex items-center px-10 justify-between">
+            {/* Left Section: App Name */}
+            <Link className="font-bold text-lg flex-shrink-0" href={"/"}>
+              Home
+            </Link>
+            <Link className="font-bold text-md flex-shrink-0" href="/completed">
+              Completed
+            </Link>
+          </nav>
+        </header>
+
+        <main className="flex-grow pt-16 pb-16">{children}</main>
       </body>
     </html>
   );
