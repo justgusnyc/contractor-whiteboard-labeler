@@ -25,7 +25,7 @@ export default function LoginPage() {
 
         setIsLoading(false);
 
-        if(result?.success && result.signup !== true) {
+        if(result?.success) {
             router.push("/");
         }
 
