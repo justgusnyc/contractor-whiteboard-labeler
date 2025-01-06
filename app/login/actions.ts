@@ -19,7 +19,11 @@ export async function authenticateUser(formData: FormData) {
     });
 
     if (!loginError) {
-        return { success: true, message: "Logged in successfully!" };
+        const { data: sessionData } = await supabase.auth.getSession();
+        if (sessionData?.session) {
+            return { success: true, message: "Logged in successfully!" };
+        }
+        return { error: "Session not established. Please try again." };
     }
 
     console.warn("Login failed, attempting signup...");
@@ -62,6 +66,7 @@ export async function authenticateUser(formData: FormData) {
         message: "Signup successful! Check your email to confirm your account.",
     };
 }
+
 
 export async function resetPassword(email: string) {
     const supabase = await createClient();
