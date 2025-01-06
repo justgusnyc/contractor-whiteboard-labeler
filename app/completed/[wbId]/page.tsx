@@ -177,7 +177,7 @@ export default function CompletedWhiteboardPage() {
           <div
             key={chunk.id}
             style={getBoxStyle(chunk)}
-            className="border border-blue-500 bg-blue-200 bg-opacity-30 cursor-pointer"
+            className={`border border-blue-500 ${chunk.confidence === "high" ? "bg-green-500" : chunk.confidence === "medium" ? "bg-orange-500": "bg-red-500"} bg-opacity-30 cursor-pointer`}
             onClick={() => handleBoxClick(chunk)}
           />
         ))}

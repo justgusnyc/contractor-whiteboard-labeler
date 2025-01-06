@@ -366,7 +366,7 @@ export default function LabelPage() {
           {chunks.map((chunk, index) => (
             <div
               key={index}
-              className={`absolute border border-blue-500 ${chunk.confidence === "High" ? "bg-green-500" : chunk.confidence === "Medium" ? "bg-orange-500": "bg-red-500"} bg-opacity-30 pointer-events-none`}
+              className={`absolute border border-blue-500 ${chunk.confidence === "high" ? "bg-green-500" : chunk.confidence === "medium" ? "bg-orange-500": "bg-red-500"} bg-opacity-30 pointer-events-none`}
               style={getNormalizedBoxStyle(
                 chunk.x_min,
                 chunk.y_min,
