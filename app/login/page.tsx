@@ -2,7 +2,8 @@
 
 import { useRouter } from "next/navigation";
 import { authenticateUser, resetPassword } from "./actions";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { createClient } from "@/utils/supabase/supabaseClient";
 
 export default function LoginPage() {
     const [email, setEmail] = useState("");
@@ -11,6 +12,21 @@ export default function LoginPage() {
     const [isLoading, setIsLoading] = useState(false);
     const [resetPasswordLoading, setResetPasswordLoading] = useState(false);
     const router = useRouter();
+
+    useEffect(() => {
+        // Check if the user is already logged in
+        const checkSession = async () => {
+            const supabase = createClient();
+            const { data: session } = await supabase.auth.getSession();
+
+            if (session?.session) {
+                // Redirect to home if user is logged in
+                router.push("/");
+            }
+        };
+
+        checkSession();
+    }, [router]);
 
     const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -25,7 +41,7 @@ export default function LoginPage() {
 
         setIsLoading(false);
 
-        if(result?.success) {
+        if (result?.success) {
             router.push("/");
         }
 
