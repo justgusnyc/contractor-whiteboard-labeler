@@ -32,25 +32,35 @@ export default function LoginPage() {
         e.preventDefault();
         setMessage("");
         setIsLoading(true);
-
+      
         const formData = new FormData();
         formData.append("email", email);
         formData.append("password", password);
-
+      
         const result = await authenticateUser(formData);
-
+      
         setIsLoading(false);
-
+      
+        // If result.success is true, figure out if it's a brand-new sign-up or actual login
         if (result?.success) {
+          if (result?.signup) {
+            // brand-new user who likely has no session (email confirmation needed)
+            setMessage(result.message || "Signup successful. Check your email to confirm.");
+            return;
+          } else {
+            // actual login with valid session
             router.push("/");
+            return;
+          }
         }
-
+      
+        // Otherwise, handle error or message
         if (result?.error) {
-            setMessage(result.error);
+          setMessage(result.error);
         } else if (result?.message) {
-            setMessage(result.message || "");
+          setMessage(result.message);
         }
-    };
+      };      
 
     const handlePasswordReset = async () => {
         if (!email) {
